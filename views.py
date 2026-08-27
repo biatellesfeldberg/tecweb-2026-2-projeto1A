@@ -6,6 +6,8 @@ db = Database('notes')
 
 
 def index(request):
+    error = ''
+
     # Verifica se a requisição recebida é do tipo POST
     if request.startswith('POST'):
 
@@ -28,15 +30,19 @@ def index(request):
             # Decodifica o valor recebido e adiciona ao dicionário
             params[chave] = unquote_plus(valor)
 
-        # Salva a nova anotação no banco SQLite
-        db.add(Note(title=params['titulo'], content=params['detalhes']))
+        # Não cria a nota se o título ou o conteúdo estiverem vazios
+        if params['titulo'] == '' or params['detalhes'] == '':
+            error = 'Preencha o título e o conteúdo da anotação.'
+        else:
+            # Salva a nova anotação no banco SQLite
+            db.add(Note(title=params['titulo'], content=params['detalhes']))
 
-        # Redireciona o navegador para a página inicial
-        return build_response(
-            code=303,
-            reason='See Other',
-            headers='Location: /'
-        )
+            # Redireciona o navegador para a página inicial
+            return build_response(
+                code=303,
+                reason='See Other',
+                headers='Location: /'
+            )
 
     # Carrega o template HTML utilizado para cada anotação
     note_template = load_template('components/note.html')
@@ -66,7 +72,7 @@ def index(request):
     notes = '\n'.join(notes_li)
 
     # Monta o corpo HTML da página
-    body = load_template('index.html').format(notes=notes).encode()
+    body = load_template('index.html').format(notes=notes, error=error).encode()
 
     # Constrói a resposta HTTP com status 200 OK
     return build_response(body=body)
