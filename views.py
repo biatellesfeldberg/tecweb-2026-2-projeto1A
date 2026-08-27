@@ -44,6 +44,7 @@ def index(request):
     # Cria o HTML de todas as anotações
     notes_li = [
         note_template.format(
+            id=note.id,
             title=note.title,
             details=note.content
         )
@@ -58,3 +59,18 @@ def index(request):
 
     # Constrói a resposta HTTP com status 200 OK
     return build_response(body=body)
+
+
+def delete(request):
+    # Pega o id da rota GET /delete/<NOTA_ID>
+    note_id = request.split()[1].split('/')[-1]
+
+    # Apaga a anotação no banco SQLite
+    db.delete(note_id)
+
+    # Redireciona o navegador para a página inicial
+    return build_response(
+        code=303,
+        reason='See Other',
+        headers='Location: /'
+    )
