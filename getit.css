@@ -131,6 +131,12 @@ a.btn {
   color: #2c2c2c;
 }
 
+.error-image {
+  width: 160px;
+  margin: 12px auto;
+  display: block;
+}
+
 .confirm-details {
   padding: 5px;
   margin-top: 7px;
