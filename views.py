@@ -1,5 +1,8 @@
 from urllib.parse import unquote_plus
-from utils import load_data, load_template, add_note, build_response
+from utils import load_template, build_response
+from database import Database, Note
+
+db = Database('notes')
 
 
 def index(request):
@@ -25,8 +28,8 @@ def index(request):
             # Decodifica o valor recebido e adiciona ao dicionário
             params[chave] = unquote_plus(valor)
 
-        # Salva a nova anotação no notes.json
-        add_note(params)
+        # Salva a nova anotação no banco SQLite
+        db.add(Note(title=params['titulo'], content=params['detalhes']))
 
         # Redireciona o navegador para a página inicial
         return build_response(
@@ -41,10 +44,10 @@ def index(request):
     # Cria o HTML de todas as anotações
     notes_li = [
         note_template.format(
-            title=dados['titulo'],
-            details=dados['detalhes']
+            title=note.title,
+            details=note.content
         )
-        for dados in load_data('notes.json')
+        for note in db.get_all()
     ]
 
     # Junta todas as anotações
