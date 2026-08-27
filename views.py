@@ -74,3 +74,49 @@ def delete(request):
         reason='See Other',
         headers='Location: /'
     )
+
+
+def edit(request):
+    # Pega o id da rota /edit/<NOTA_ID>
+    note_id = request.split()[1].split('/')[-1]
+
+    if request.startswith('POST'):
+
+        # Remove os caracteres "\r" da requisição
+        request = request.replace('\r', '')
+
+        # Separa o cabeçalho do corpo da requisição
+        partes = request.split('\n\n')
+        corpo = partes[1]
+
+        # Dicionário que armazenará os dados enviados pelo formulário
+        params = {}
+
+        # Separa cada par chave=valor enviado pelo formulário
+        for chave_valor in corpo.split('&'):
+
+            # Separa o nome do campo do seu valor
+            chave, valor = chave_valor.split('=', 1)
+
+            # Decodifica o valor recebido e adiciona ao dicionário
+            params[chave] = unquote_plus(valor)
+
+        # Atualiza a anotação no banco SQLite
+        db.update(Note(id=note_id, title=params['titulo'], content=params['detalhes']))
+
+        # Redireciona o navegador para a página inicial
+        return build_response(
+            code=303,
+            reason='See Other',
+            headers='Location: /'
+        )
+
+    # Busca a anotação pelo id e preenche a página de edição
+    note = db.get_by_id(note_id)
+
+    body = load_template('edit.html').format(
+        title=note.title or '',
+        details=note.content or ''
+    ).encode()
+
+    return build_response(body=body)

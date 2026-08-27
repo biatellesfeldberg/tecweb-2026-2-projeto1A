@@ -1,7 +1,7 @@
 import socket # utilizado para lidar com chamadas de rede de baixo nível
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, delete
+from views import index, delete, edit
 
 CUR_DIR = Path(__file__).parent # string com o caminho do diretório onde o servidor.py está localizado
 
@@ -33,8 +33,10 @@ while True:
         response = build_response() + read_file(filepath)
     elif route == '':
         response = index(request)
-    elif route.startswith('delete/'):
+    elif route.startswith('delete/') and route.split('/')[-1].isdigit():
         response = delete(request)
+    elif route.startswith('edit/') and route.split('/')[-1].isdigit():
+        response = edit(request)
     else:
         response = build_response()
 

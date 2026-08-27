@@ -39,6 +39,15 @@ class Database:
 
         return notes
     
+    def get_by_id(self, note_id):
+        cursor = self.conn.execute(
+            f"SELECT id, title, content FROM note WHERE id = {note_id}"
+        )
+
+        linha = cursor.fetchone()
+
+        return Note(linha[0], linha[1], linha[2])
+
     def update(self, entry):
         self.conn.execute(
             f"""

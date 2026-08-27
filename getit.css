@@ -105,6 +105,24 @@ body {
   cursor: pointer;
 }
 
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.btn-cancel {
+  background-color: #e0e0e0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c2c2c;
+}
+
 /* Você pode usar o CSS comentado abaixo, se ajudar */
 /* Fonte: https://codepen.io/CrisWoler/pen/ogXBLj */
 /* .btn {
@@ -189,28 +207,36 @@ body {
 
 .card-title {
   margin-bottom: 8px;
-  padding-right: 24px;
+  padding-right: 52px;
   color: #2c2c2c;
   font-size: 19px;
   line-height: 1.25;
 }
 
-/* Ícone de apagar no canto do card */
-.card-remove {
+/* Ícones de editar e apagar no canto do card */
+.card-remove,
+.card-edit {
   position: absolute;
   top: 6px;
-  right: 6px;
   width: 28px;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   color: #2c2c2c;
   text-decoration: none;
 }
 
-.card-remove .material-icons {
+.card-remove {
+  right: 6px;
+}
+
+.card-edit {
+  right: 32px;
+}
+
+.card-remove .material-icons,
+.card-edit .material-icons {
   font-size: 18px;
 }
 
