@@ -62,18 +62,29 @@ def index(request):
 
 
 def delete(request):
-    # Pega o id da rota GET /delete/<NOTA_ID>
+    # Pega o id da rota /delete/<NOTA_ID>
     note_id = request.split()[1].split('/')[-1]
 
-    # Apaga a anotação no banco SQLite
-    db.delete(note_id)
+    if request.startswith('POST'):
+        # Confirmação: apaga a anotação no banco SQLite
+        db.delete(note_id)
 
-    # Redireciona o navegador para a página inicial
-    return build_response(
-        code=303,
-        reason='See Other',
-        headers='Location: /'
-    )
+        # Redireciona o navegador para a página inicial
+        return build_response(
+            code=303,
+            reason='See Other',
+            headers='Location: /'
+        )
+
+    # GET: mostra a página de confirmação com a anotação
+    note = db.get_by_id(note_id)
+
+    body = load_template('confirm.html').format(
+        title=note.title or '',
+        details=note.content or ''
+    ).encode()
+
+    return build_response(body=body)
 
 
 def edit(request):

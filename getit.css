@@ -123,6 +123,19 @@ body {
   color: #2c2c2c;
 }
 
+.confirm-details {
+  padding: 5px;
+  margin-top: 7px;
+  font-size: 15px;
+  color: #4c4c4c;
+}
+
+.confirm-question {
+  padding: 16px 5px 8px;
+  font-size: 15px;
+  color: #2c2c2c;
+}
+
 /* Você pode usar o CSS comentado abaixo, se ajudar */
 /* Fonte: https://codepen.io/CrisWoler/pen/ogXBLj */
 /* .btn {
