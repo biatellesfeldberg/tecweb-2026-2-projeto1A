@@ -41,14 +41,25 @@ def index(request):
     # Carrega o template HTML utilizado para cada anotação
     note_template = load_template('components/note.html')
 
+    # Favoritas primeiro, depois as demais
+    all_notes = db.get_all()
+    favoritas = []
+    outras = []
+    for note in all_notes:
+        if note.favorite:
+            favoritas.append(note)
+        else:
+            outras.append(note)
+
     # Cria o HTML de todas as anotações
     notes_li = [
         note_template.format(
             id=note.id,
             title=note.title,
-            details=note.content
+            details=note.content,
+            star='star' if note.favorite else 'star_border'
         )
-        for note in db.get_all()
+        for note in favoritas + outras
     ]
 
     # Junta todas as anotações
@@ -131,6 +142,21 @@ def edit(request):
     ).encode()
 
     return build_response(body=body)
+
+
+def favorite(request):
+    # Pega o id da rota GET /favorite/<NOTA_ID>
+    note_id = request.split()[1].split('/')[-1]
+
+    # Alterna o favorito da anotação
+    db.toggle_favorite(note_id)
+
+    # Redireciona o navegador para a página inicial
+    return build_response(
+        code=303,
+        reason='See Other',
+        headers='Location: /'
+    )
 
 
 def not_found(request):

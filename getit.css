@@ -228,15 +228,16 @@ a.btn {
 
 .card-title {
   margin-bottom: 8px;
-  padding-right: 52px;
+  padding-right: 78px;
   color: #2c2c2c;
   font-size: 19px;
   line-height: 1.25;
 }
 
-/* Ícones de editar e apagar no canto do card */
+/* Ícones de favoritar, editar e apagar no canto do card */
 .card-remove,
-.card-edit {
+.card-edit,
+.card-favorite {
   position: absolute;
   top: 6px;
   width: 28px;
@@ -256,8 +257,13 @@ a.btn {
   right: 32px;
 }
 
+.card-favorite {
+  right: 58px;
+}
+
 .card-remove .material-icons,
-.card-edit .material-icons {
+.card-edit .material-icons,
+.card-favorite .material-icons {
   font-size: 18px;
 }
 
