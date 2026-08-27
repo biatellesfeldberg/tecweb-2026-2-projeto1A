@@ -131,3 +131,8 @@ def edit(request):
     ).encode()
 
     return build_response(body=body)
+
+
+def not_found(request):
+    body = load_template('404.html').encode()
+    return build_response(body=body, code=404, reason='Not Found')
