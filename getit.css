@@ -123,6 +123,14 @@ body {
   color: #2c2c2c;
 }
 
+a.btn {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c2c2c;
+}
+
 .confirm-details {
   padding: 5px;
   margin-top: 7px;

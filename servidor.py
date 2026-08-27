@@ -1,6 +1,6 @@
 import socket # utilizado para lidar com chamadas de rede de baixo nível
 from pathlib import Path
-from utils import extract_route, read_file, build_response
+from utils import extract_route, read_file, build_response, load_template
 from views import index, delete, edit
 
 CUR_DIR = Path(__file__).parent # string com o caminho do diretório onde o servidor.py está localizado
@@ -38,7 +38,7 @@ while True:
     elif route.startswith('edit/') and route.split('/')[-1].isdigit():
         response = edit(request)
     else:
-        response = build_response()
+        response = build_response(body=load_template('404.html'), code=404, reason='Not Found')
 
     client_connection.sendall(response)
     
